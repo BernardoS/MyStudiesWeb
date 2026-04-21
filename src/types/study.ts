@@ -3,7 +3,7 @@ export interface Study {
   title: string
   description: string
   content: string       // Markdown
-  subjectId: string
+  subjectIds: string[]
   createdAt: string
   updatedAt: string
 }
@@ -12,7 +12,7 @@ export interface CreateStudyDTO {
   title: string
   description: string
   content: string
-  subjectId: string
+  subjectIds: string[]
 }
 
 export type UpdateStudyDTO = Partial<CreateStudyDTO>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { Study } from '../types/study'
 import { studiesService } from '../services/studiesService'
 import { Header } from '../components/Header'
@@ -8,6 +9,7 @@ import { StudyCard } from '../components/StudyCard'
 import { EmptyCard } from '../components/EmptyCard'
 
 export function HomePage() {
+  const navigate = useNavigate()
   const [studies, setStudies] = useState<Study[]>([])
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
@@ -46,7 +48,7 @@ export function HomePage() {
           <SearchBar
             value={query}
             onChange={setQuery}
-            onCreateClick={() => {}}
+            onCreateClick={() => navigate('/estudos/novo')}
           />
         </div>
 
@@ -74,7 +76,7 @@ export function HomePage() {
             <p className="text-dark font-bold text-lg">Nenhum estudo encontrado</p>
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => navigate('/estudos/novo')}
               className="px-6 py-2 bg-primary border-2 border-dark text-white font-bold rounded-full hover:bg-primary-light transition-colors duration-200"
             >
               Criar primeiro estudo
@@ -96,7 +98,7 @@ export function HomePage() {
                   key={study.id}
                   title={study.title}
                   description={study.description}
-                  onClick={() => {}}
+                  onClick={() => navigate(`/estudos/${study.id}`)}
                 />
               ))}
               {Array.from({ length: emptyCount }, (_, i) => (
