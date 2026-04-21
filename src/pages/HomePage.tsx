@@ -98,7 +98,7 @@ export function HomePage() {
                   key={study.id}
                   title={study.title}
                   description={study.description}
-                  onClick={() => {}}
+                  onClick={() => navigate(`/estudos/${study.id}`)}
                 />
               ))}
               {Array.from({ length: emptyCount }, (_, i) => (
