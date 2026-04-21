@@ -1,4 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #FF830B;
+  --color-primary-light: #FFA23C;
+  --color-dark: #261200;
+  --color-bg: #F6F6F6;
+  --font-family-sans: "Lexend", sans-serif;
+}
 
 :root {
   font-family: "Lexend", sans-serif;
@@ -7,12 +16,10 @@
 
   color-scheme: light dark;
   color: #242424;
-  background-color: #f6f6f6 ;
+  background-color: #f6f6f6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-
