@@ -76,7 +76,31 @@ Página de criação de um novo estudo. Permite escrever o conteúdo em Markdown
 
 ---
 
+### Visualizar Estudo (`/estudos/:id`)
+
+Página de visualização completa de um estudo. Exibe o conteúdo em Markdown renderizado com tipografia customizada, além de informações de cabeçalho e ações de gerenciamento.
+
+**Funcionalidades:**
+
+- Carregamento paralelo do estudo e dos assuntos via `Promise.all`
+- Estado de carregamento enquanto os dados são buscados
+- Exibição de erro com botão "← Voltar" em caso de falha (incluindo estudo não encontrado)
+- Redirecionamento automático para `/` se o `id` for inválido
+- Cabeçalho com título, badge de assunto, data de criação formatada e descrição
+- Conteúdo Markdown renderizado com estilos customizados (headings, listas, código, blockquote, links, etc.)
+- Barra de ações com botões "← Voltar", "Editar" e "Excluir"
+- Modal de confirmação antes de excluir, com estado de loading e tratamento de erro
+
+**Componentes utilizados:**
+
+| Componente | Descrição |
+|---|---|
+| `Header` | Cabeçalho reutilizado com navegação |
+| `DeleteModal` | Modal de confirmação de exclusão com overlay e botões de ação |
+
+---
+
 ## Serviços
 
-- **`studiesService`** — busca e criação de estudos. Atualmente utiliza dados mockados com delay de 500ms. Será integrado à API .NET futuramente.
+- **`studiesService`** — listagem, busca por ID, criação e exclusão de estudos. Atualmente utiliza dados mockados com delays simulados. Será integrado à API .NET futuramente.
 - **`subjectsService`** — listagem e criação de assuntos. Atualmente utiliza dados mockados (delay de 500ms para listagem, 300ms para criação). Será integrado à API .NET futuramente.
