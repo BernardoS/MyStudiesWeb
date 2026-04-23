@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { Study } from '../types/study'
 import type { Subject } from '../types/subject'
 import { subjectsService } from '../services/subjectsService'
@@ -32,6 +33,7 @@ export function calcularEmptyCount(filteredCount: number): number {
 }
 
 export function SubjectsPage() {
+  const navigate = useNavigate()
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [studies, setStudies] = useState<Study[]>([])
   const [query, setQuery] = useState('')
@@ -123,7 +125,7 @@ export function SubjectsPage() {
                   key={subject.id}
                   name={subject.name}
                   studyCount={studyCountMap[subject.id] ?? 0}
-                  onClick={() => {}}
+                  onClick={() => navigate(`/assuntos/${subject.id}`)}
                 />
               ))}
               {Array.from({ length: emptyCount }, (_, i) => (
