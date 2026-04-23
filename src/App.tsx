@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HomePage } from './pages/HomePage'
 import { CreateStudyPage } from './pages/CreateStudyPage'
 import { ViewStudyPage } from './pages/ViewStudyPage'
+import { SubjectsPage } from './pages/SubjectsPage'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/estudos/novo" element={<CreateStudyPage />} />
         <Route path="/estudos/:id" element={<ViewStudyPage />} />
+        <Route path="/assuntos" element={<SubjectsPage />} />
       </Routes>
     </BrowserRouter>
   )
