@@ -14,7 +14,7 @@ export function Header() {
           onClick={() => navigate('/')}
         />
         <nav className="flex gap-10">
-          {["cards", "assuntos"].map((link) => (
+          {["cards"].map((link) => (
             <a
               key={link}
               href="#"
@@ -23,6 +23,13 @@ export function Header() {
               {link}
             </a>
           ))}
+          <button
+            type="button"
+            onClick={() => navigate('/assuntos')}
+            className="text-dark text-lg font-bold transition-colors duration-200 hover:text-primary cursor-pointer bg-transparent border-none p-0"
+          >
+            assuntos
+          </button>
           <button
             type="button"
             onClick={() => navigate('/')}

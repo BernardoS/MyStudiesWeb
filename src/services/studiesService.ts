@@ -224,7 +224,75 @@ Principais opções:
     id: '3',
     title: 'Tailwind CSS na Prática',
     description: 'Estilização utilitária com Tailwind: layout, responsividade e customização de tema.',
-    content: '',
+    content: `# Tailwind CSS na Prática
+
+Tailwind é um framework CSS **utility-first**: em vez de classes semânticas como \`.card\`, você compõe estilos diretamente no HTML com classes utilitárias como \`flex\`, \`p-4\`, \`text-lg\`.
+
+## Por que Tailwind?
+
+- Sem CSS customizado na maioria dos casos
+- Design system embutido (cores, espaçamentos, tipografia)
+- Purge automático — bundle final só com classes usadas
+- Excelente integração com React/Vite
+
+---
+
+## Layout com Flexbox e Grid
+
+\`\`\`html
+<!-- Flexbox centralizado -->
+<div class="flex items-center justify-center gap-4">
+  <span>Item 1</span>
+  <span>Item 2</span>
+</div>
+
+<!-- Grid de 3 colunas -->
+<div class="grid grid-cols-3 gap-6">
+  <div>A</div>
+  <div>B</div>
+  <div>C</div>
+</div>
+\`\`\`
+
+## Responsividade
+
+Tailwind usa prefixos de breakpoint: \`sm:\`, \`md:\`, \`lg:\`, \`xl:\`.
+
+\`\`\`html
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  <!-- 1 coluna no mobile, 2 no tablet, 4 no desktop -->
+</div>
+\`\`\`
+
+## Customização de Tema
+
+No \`tailwind.config.js\` (ou via CSS com \`@theme\` no Tailwind v4):
+
+\`\`\`js
+export default {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#7C3AED',
+        dark: '#261200',
+      },
+      fontFamily: {
+        sans: ['Lexend', 'sans-serif'],
+      },
+    },
+  },
+}
+\`\`\`
+
+## Estados e Variantes
+
+\`\`\`html
+<button class="bg-primary hover:opacity-80 active:scale-95 transition-all">
+  Clique aqui
+</button>
+\`\`\`
+
+> **Dica:** Use a extensão **Tailwind CSS IntelliSense** no VS Code para autocompletar e preview de cores.`,
     subjectIds: ['frontend'],
     createdAt: '2024-02-01T00:00:00Z',
     updatedAt: '2024-02-01T00:00:00Z',
@@ -233,7 +301,77 @@ Principais opções:
     id: '4',
     title: 'Classes e Objetos em POO',
     description: 'Fundamentos de orientação a objetos: classes, atributos, métodos e encapsulamento.',
-    content: '',
+    content: `# Classes e Objetos em POO
+
+A **Programação Orientada a Objetos** organiza o código em torno de objetos — entidades que combinam dados (atributos) e comportamentos (métodos).
+
+## Classe vs Objeto
+
+- **Classe**: molde/blueprint que define estrutura e comportamento
+- **Objeto**: instância concreta de uma classe
+
+\`\`\`ts
+class Pessoa {
+  nome: string
+  idade: number
+
+  constructor(nome: string, idade: number) {
+    this.nome = nome
+    this.idade = idade
+  }
+
+  apresentar(): string {
+    return \`Olá, sou \${this.nome} e tenho \${this.idade} anos.\`
+  }
+}
+
+const ana = new Pessoa('Ana', 28)
+console.log(ana.apresentar()) // "Olá, sou Ana e tenho 28 anos."
+\`\`\`
+
+## Encapsulamento
+
+Controla o acesso aos dados internos usando modificadores de acesso:
+
+| Modificador | Acesso |
+|-------------|--------|
+| \`public\`    | Em qualquer lugar |
+| \`private\`   | Apenas dentro da classe |
+| \`protected\` | Classe e subclasses |
+
+\`\`\`ts
+class ContaBancaria {
+  private saldo: number = 0
+
+  depositar(valor: number): void {
+    if (valor > 0) this.saldo += valor
+  }
+
+  getSaldo(): number {
+    return this.saldo
+  }
+}
+\`\`\`
+
+## Herança
+
+\`\`\`ts
+class Animal {
+  constructor(public nome: string) {}
+
+  falar(): string {
+    return \`\${this.nome} faz um som.\`
+  }
+}
+
+class Cachorro extends Animal {
+  falar(): string {
+    return \`\${this.nome} late: Au au!\`
+  }
+}
+\`\`\`
+
+> **Princípio:** Prefira composição à herança quando possível — herança profunda torna o código difícil de manter.`,
     subjectIds: ['poo'],
     createdAt: '2024-02-10T00:00:00Z',
     updatedAt: '2024-02-10T00:00:00Z',
@@ -242,7 +380,73 @@ Principais opções:
     id: '5',
     title: 'Métodos Estáticos',
     description: 'Entendendo métodos estáticos em classes e quando utilizá-los corretamente.',
-    content: '',
+    content: `# Métodos Estáticos
+
+Métodos estáticos pertencem à **classe**, não às instâncias. São chamados diretamente na classe, sem precisar criar um objeto.
+
+## Sintaxe
+
+\`\`\`ts
+class Matematica {
+  static somar(a: number, b: number): number {
+    return a + b
+  }
+
+  static fatorial(n: number): number {
+    if (n <= 1) return 1
+    return n * Matematica.fatorial(n - 1)
+  }
+}
+
+console.log(Matematica.somar(3, 4))   // 7
+console.log(Matematica.fatorial(5))   // 120
+\`\`\`
+
+## Quando usar métodos estáticos?
+
+✅ **Use quando:**
+- A lógica não depende do estado de uma instância
+- São funções utilitárias relacionadas à classe
+- Implementar factory methods
+
+❌ **Evite quando:**
+- Precisar acessar \`this\` (estado da instância)
+- A lógica mudar conforme o objeto
+
+## Factory Method com static
+
+\`\`\`ts
+class Conexao {
+  private constructor(private url: string) {}
+
+  static criar(url: string): Conexao {
+    if (!url.startsWith('https')) {
+      throw new Error('Apenas HTTPS é permitido')
+    }
+    return new Conexao(url)
+  }
+}
+
+const conn = Conexao.criar('https://api.exemplo.com')
+\`\`\`
+
+## Propriedades Estáticas
+
+\`\`\`ts
+class Contador {
+  static total = 0
+
+  constructor() {
+    Contador.total++
+  }
+}
+
+new Contador()
+new Contador()
+console.log(Contador.total) // 2
+\`\`\`
+
+> **Atenção:** Propriedades estáticas são compartilhadas entre todas as instâncias — use com cuidado para evitar efeitos colaterais inesperados.`,
     subjectIds: ['poo'],
     createdAt: '2024-02-15T00:00:00Z',
     updatedAt: '2024-02-15T00:00:00Z',
@@ -251,7 +455,72 @@ Principais opções:
     id: '6',
     title: 'Testes Unitários em C#',
     description: 'Uma introdução a testes unitários com xUnit e boas práticas de cobertura de código.',
-    content: '',
+    content: `# Testes Unitários em C#
+
+Testes unitários verificam o comportamento de unidades isoladas de código (métodos, classes). Em C#, o framework mais popular é o **xUnit**.
+
+## Configuração
+
+\`\`\`bash
+dotnet new xunit -n MeuProjeto.Tests
+dotnet add reference ../MeuProjeto/MeuProjeto.csproj
+\`\`\`
+
+## Estrutura de um Teste
+
+\`\`\`csharp
+public class CalculadoraTests
+{
+    [Fact]
+    public void Somar_DoisNumeros_RetornaSoma()
+    {
+        // Arrange
+        var calc = new Calculadora();
+
+        // Act
+        var resultado = calc.Somar(3, 4);
+
+        // Assert
+        Assert.Equal(7, resultado);
+    }
+}
+\`\`\`
+
+O padrão **AAA** (Arrange, Act, Assert) organiza o teste em três etapas claras.
+
+## Testes Parametrizados
+
+\`\`\`csharp
+[Theory]
+[InlineData(2, 3, 5)]
+[InlineData(0, 0, 0)]
+[InlineData(-1, 1, 0)]
+public void Somar_Parametrizado(int a, int b, int esperado)
+{
+    var calc = new Calculadora();
+    Assert.Equal(esperado, calc.Somar(a, b));
+}
+\`\`\`
+
+## Mocks com Moq
+
+\`\`\`csharp
+var mockRepo = new Mock<IUsuarioRepository>();
+mockRepo.Setup(r => r.BuscarPorId(1))
+        .Returns(new Usuario { Id = 1, Nome = "Ana" });
+
+var service = new UsuarioService(mockRepo.Object);
+var usuario = service.Obter(1);
+
+Assert.Equal("Ana", usuario.Nome);
+\`\`\`
+
+## Boas Práticas
+
+- Um assert por teste (quando possível)
+- Nomes descritivos: \`Metodo_Cenario_ResultadoEsperado\`
+- Teste o comportamento, não a implementação
+- Mantenha os testes rápidos e independentes`,
     subjectIds: ['csharp'],
     createdAt: '2024-03-01T00:00:00Z',
     updatedAt: '2024-03-01T00:00:00Z',
@@ -260,7 +529,64 @@ Principais opções:
     id: '7',
     title: 'Fundamentos do Angular',
     description: 'Uma introdução ao Angular: componentes, módulos, serviços e data binding.',
-    content: '',
+    content: `# Fundamentos do Angular
+
+Angular é um **framework front-end** completo mantido pelo Google. Diferente do React (biblioteca), Angular já vem com roteamento, formulários, HTTP client e injeção de dependência embutidos.
+
+## Estrutura de um Componente
+
+\`\`\`ts
+@Component({
+  selector: 'app-saudacao',
+  template: \`<h1>Olá, {{ nome }}!</h1>\`,
+})
+export class SaudacaoComponent {
+  nome = 'Mundo'
+}
+\`\`\`
+
+## Data Binding
+
+| Tipo | Sintaxe | Direção |
+|------|---------|---------|
+| Interpolação | \`{{ valor }}\` | Component → Template |
+| Property binding | \`[propriedade]="valor"\` | Component → Template |
+| Event binding | \`(evento)="handler()"\` | Template → Component |
+| Two-way | \`[(ngModel)]="campo"\` | Bidirecional |
+
+## Serviços e Injeção de Dependência
+
+\`\`\`ts
+@Injectable({ providedIn: 'root' })
+export class UsuarioService {
+  private usuarios: string[] = []
+
+  adicionar(nome: string): void {
+    this.usuarios.push(nome)
+  }
+
+  listar(): string[] {
+    return this.usuarios
+  }
+}
+
+@Component({ ... })
+export class AppComponent {
+  constructor(private usuarioService: UsuarioService) {}
+}
+\`\`\`
+
+## Roteamento
+
+\`\`\`ts
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'sobre', component: SobreComponent },
+  { path: '**', redirectTo: '' },
+]
+\`\`\`
+
+> **Dica:** Use \`RouterLink\` no template em vez de \`href\` para navegação sem recarregar a página.`,
     subjectIds: ['frontend'],
     createdAt: '2024-03-10T00:00:00Z',
     updatedAt: '2024-03-10T00:00:00Z',
@@ -269,7 +595,68 @@ Principais opções:
     id: '8',
     title: 'Git e Controle de Versão',
     description: 'Comandos essenciais do Git: commits, branches, merge, rebase e resolução de conflitos.',
-    content: '',
+    content: `# Git e Controle de Versão
+
+Git é o sistema de controle de versão distribuído mais usado no mundo. Ele rastreia mudanças no código, permite colaboração e facilita reverter erros.
+
+## Comandos Essenciais
+
+\`\`\`bash
+git init                    # inicializa repositório
+git clone <url>             # clona repositório remoto
+git status                  # mostra estado atual
+git add .                   # adiciona tudo ao stage
+git commit -m "mensagem"    # cria commit
+git push origin main        # envia para remoto
+git pull                    # atualiza do remoto
+\`\`\`
+
+## Branches
+
+\`\`\`bash
+git branch feature/login    # cria branch
+git checkout feature/login  # muda para branch
+git checkout -b feature/login  # cria e muda
+
+git merge feature/login     # merge na branch atual
+git branch -d feature/login # deleta branch local
+\`\`\`
+
+## Rebase vs Merge
+
+**Merge** preserva o histórico completo com um commit de merge.
+
+**Rebase** reescreve o histórico linearmente — útil para manter o histórico limpo antes de um PR.
+
+\`\`\`bash
+git rebase main             # reaplica commits sobre main
+git rebase -i HEAD~3        # rebase interativo (squash, reword...)
+\`\`\`
+
+## Resolução de Conflitos
+
+Quando dois branches editam a mesma linha:
+
+\`\`\`
+<<<<<<< HEAD
+  código da sua branch
+=======
+  código da outra branch
+>>>>>>> feature/login
+\`\`\`
+
+Edite o arquivo, escolha o que manter, depois:
+
+\`\`\`bash
+git add arquivo.ts
+git commit
+\`\`\`
+
+## Boas Práticas de Commit
+
+- Mensagens no imperativo: "Adiciona validação de email"
+- Commits pequenos e focados em uma mudança
+- Use \`git commit --amend\` para corrigir o último commit (antes do push)`,
     subjectIds: ['ferramentas'],
     createdAt: '2024-03-20T00:00:00Z',
     updatedAt: '2024-03-20T00:00:00Z',
@@ -278,7 +665,73 @@ Principais opções:
     id: '9',
     title: 'SQL para Desenvolvedores',
     description: 'Consultas SQL do básico ao avançado: SELECT, JOIN, subqueries e índices.',
-    content: '',
+    content: `# SQL para Desenvolvedores
+
+SQL (Structured Query Language) é a linguagem padrão para consultar e manipular bancos de dados relacionais.
+
+## Consultas Básicas
+
+\`\`\`sql
+-- Selecionar tudo
+SELECT * FROM usuarios;
+
+-- Selecionar colunas específicas com filtro
+SELECT nome, email
+FROM usuarios
+WHERE ativo = true
+ORDER BY nome ASC
+LIMIT 10;
+\`\`\`
+
+## JOINs
+
+\`\`\`sql
+-- INNER JOIN: apenas registros com correspondência nos dois lados
+SELECT u.nome, p.titulo
+FROM usuarios u
+INNER JOIN posts p ON p.usuario_id = u.id;
+
+-- LEFT JOIN: todos os usuários, mesmo sem posts
+SELECT u.nome, COUNT(p.id) AS total_posts
+FROM usuarios u
+LEFT JOIN posts p ON p.usuario_id = u.id
+GROUP BY u.id, u.nome;
+\`\`\`
+
+## Subqueries
+
+\`\`\`sql
+-- Usuários que fizeram pelo menos um pedido
+SELECT nome FROM usuarios
+WHERE id IN (
+  SELECT DISTINCT usuario_id FROM pedidos
+);
+\`\`\`
+
+## Índices
+
+Índices aceleram consultas mas aumentam o custo de escrita.
+
+\`\`\`sql
+-- Criar índice
+CREATE INDEX idx_usuarios_email ON usuarios(email);
+
+-- Índice composto
+CREATE INDEX idx_pedidos_usuario_data
+ON pedidos(usuario_id, criado_em DESC);
+\`\`\`
+
+## Transações
+
+\`\`\`sql
+BEGIN;
+  UPDATE contas SET saldo = saldo - 100 WHERE id = 1;
+  UPDATE contas SET saldo = saldo + 100 WHERE id = 2;
+COMMIT;
+-- Se algo falhar: ROLLBACK;
+\`\`\`
+
+> **Dica:** Use \`EXPLAIN ANALYZE\` para entender o plano de execução de uma query lenta.`,
     subjectIds: ['banco-de-dados'],
     createdAt: '2024-04-01T00:00:00Z',
     updatedAt: '2024-04-01T00:00:00Z',
@@ -287,7 +740,83 @@ Principais opções:
     id: '10',
     title: 'Padrões de Projeto',
     description: 'Design patterns clássicos: Singleton, Factory, Observer e Strategy com exemplos práticos.',
-    content: '',
+    content: `# Padrões de Projeto
+
+Design patterns são soluções reutilizáveis para problemas recorrentes no design de software. Foram popularizados pelo livro **"Gang of Four"** (GoF).
+
+## Singleton
+
+Garante que uma classe tenha apenas uma instância.
+
+\`\`\`ts
+class ConfiguracaoApp {
+  private static instancia: ConfiguracaoApp
+
+  private constructor(public tema: string = 'claro') {}
+
+  static getInstance(): ConfiguracaoApp {
+    if (!ConfiguracaoApp.instancia) {
+      ConfiguracaoApp.instancia = new ConfiguracaoApp()
+    }
+    return ConfiguracaoApp.instancia
+  }
+}
+
+const config = ConfiguracaoApp.getInstance()
+\`\`\`
+
+## Factory Method
+
+Define uma interface para criar objetos, deixando subclasses decidirem qual classe instanciar.
+
+\`\`\`ts
+interface Notificacao {
+  enviar(mensagem: string): void
+}
+
+class NotificacaoEmail implements Notificacao {
+  enviar(msg: string) { console.log(\`Email: \${msg}\`) }
+}
+
+class NotificacaoSMS implements Notificacao {
+  enviar(msg: string) { console.log(\`SMS: \${msg}\`) }
+}
+
+function criarNotificacao(tipo: 'email' | 'sms'): Notificacao {
+  return tipo === 'email' ? new NotificacaoEmail() : new NotificacaoSMS()
+}
+\`\`\`
+
+## Observer
+
+Define uma dependência um-para-muitos: quando um objeto muda, todos os dependentes são notificados.
+
+\`\`\`ts
+class EventEmitter<T> {
+  private listeners: ((data: T) => void)[] = []
+
+  on(fn: (data: T) => void) { this.listeners.push(fn) }
+  emit(data: T) { this.listeners.forEach(fn => fn(data)) }
+}
+\`\`\`
+
+## Strategy
+
+Define uma família de algoritmos intercambiáveis.
+
+\`\`\`ts
+type Ordenador = (arr: number[]) => number[]
+
+const bubbleSort: Ordenador = (arr) => { /* ... */ return arr }
+const quickSort: Ordenador = (arr) => { /* ... */ return arr }
+
+class Sorter {
+  constructor(private strategy: Ordenador) {}
+  ordenar(arr: number[]) { return this.strategy(arr) }
+}
+\`\`\`
+
+> **Regra de ouro:** Não aplique patterns por aplicar — use quando o problema que eles resolvem realmente existir no seu código.`,
     subjectIds: ['arquitetura'],
     createdAt: '2024-04-10T00:00:00Z',
     updatedAt: '2024-04-10T00:00:00Z',
